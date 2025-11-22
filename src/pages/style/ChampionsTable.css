@@ -202,6 +202,17 @@
   color: var(--text-primary);
 }
 
+.class-cell {
+  text-align: center;
+}
+
+.class-icon {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  display: inline-block;
+}
+
 .win-rate {
   color: var(--text-primary);
   font-weight: 600;

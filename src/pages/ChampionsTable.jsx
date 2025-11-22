@@ -2,12 +2,37 @@ import { useEffect, useState } from 'react'
 import { Search } from 'lucide-react'
 import { api } from '../services/api'
 import { championClasses, getChampionUrl } from '../data/championClasses'
+import fighterIcon from '../../assets/fighter.png'
+import mageIcon from '../../assets/mage.png'
+import assasinIcon from '../../assets/assasin.png'
+import shooterIcon from '../../assets/shooter.png'
+import tankIcon from '../../assets/tank.png'
+import supIcon from '../../assets/sup.png'
 import './style/ChampionsTable.css'
 
 function ChampionsTable() {
   const [allChampions, setAllChampions] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [loading, setLoading] = useState(true)
+
+  const getClassIcon = (className) => {
+    switch (className) {
+      case 'Lutador':
+        return fighterIcon
+      case 'Mago':
+        return mageIcon
+      case 'Assassino':
+        return assasinIcon
+      case 'Atirador':
+        return shooterIcon
+      case 'Tanque':
+        return tankIcon
+      case 'Suporte':
+        return supIcon
+      default:
+        return null
+    }
+  }
 
   useEffect(() => {
     const fetchAllChampions = async () => {
@@ -155,7 +180,17 @@ function ChampionsTable() {
                   <td className="champion-name">
                     {champ.champion}
                   </td>
-                  <td>{champ.class}</td>
+                  <td className="class-cell">
+                    {getClassIcon(champ.class) ? (
+                      <img
+                        src={getClassIcon(champ.class)}
+                        alt={champ.class}
+                        className="class-icon"
+                      />
+                    ) : (
+                      <span>{champ.class}</span>
+                    )}
+                  </td>
                   <td className="win-rate-cell">
                     {champ.top ? (
                       <span className="win-rate">
