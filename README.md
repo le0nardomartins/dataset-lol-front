@@ -1,73 +1,38 @@
 # Dashboard LoL
 
-Dashboard para visualização de dados de League of Legends.
+Dashboard interativo para visualização de dados e estatísticas do League of Legends.
 
-## 🚀 Tecnologias
+## 📊 O que esta aplicação mostra
 
-- **React 18** - Biblioteca JavaScript para construção de interfaces
-- **Vite** - Build tool e dev server extremamente rápido
-- **CSS3** - Estilização moderna com gradientes e animações
+Esta aplicação transforma um dataset de League of Legends em uma demonstração gráfica visual, apresentando:
 
-## 📦 Instalação
+- **Estatísticas Gerais**: Visão geral com métricas principais e gráficos de performance
+- **Campeões**: Análise detalhada de cada campeão com win rate, KDA e estatísticas por posição
+- **Tabela Completa**: Lista de todos os campeões com taxa de vitória por posição (Top, JG, Mid, ADC, Sup) e suas classes
+- **Partidas**: Análise de partidas individuais com filtros e distribuições
+- **Rankings**: Classificação de campeões por KDA e performance
+- **Estatísticas e Correlações**: Análise de correlações entre diferentes métricas e vitórias
 
-1. Clone o repositório
-2. Instale as dependências:
+## 🎯 Objetivo
 
+Este projeto foi criado com o intuito de transformar um dataset em uma demonstração gráfica visual, utilizando gráficos interativos, tabelas e visualizações para apresentar os dados de forma clara e intuitiva.
+
+**⚠️ Importante**: Esta aplicação foi desenvolvida **apenas para fins de aprendizado e treinamento**. O objetivo principal é demonstrar como dados podem ser transformados em visualizações interativas e informativas.
+
+## 🚀 Como usar
+
+1. Instale as dependências:
 ```bash
 npm install
 ```
 
-## 🛠️ Desenvolvimento
-
-Inicie o servidor de desenvolvimento:
-
+2. Inicie o servidor de desenvolvimento:
 ```bash
 npm run dev
 ```
 
-A aplicação estará disponível em `http://localhost:3000`
+3. Acesse `http://localhost:3000` no seu navegador
 
-## 🏗️ Build
+## 📝 Nota
 
-Para criar uma build de produção:
-
-```bash
-npm run build
-```
-
-Para visualizar a build:
-
-```bash
-npm run preview
-```
-
-## 📁 Estrutura do Projeto
-
-```
-dashboard-lol/
-├── src/
-│   ├── components/      # Componentes React
-│   ├── App.jsx         # Componente principal
-│   ├── App.css         # Estilos do App
-│   ├── main.jsx        # Ponto de entrada
-│   └── index.css       # Estilos globais
-├── public/             # Arquivos estáticos
-├── index.html          # HTML principal
-├── vite.config.js     # Configuração do Vite
-└── package.json       # Dependências do projeto
-```
-
-## 📝 Scripts Disponíveis
-
-- `npm run dev` - Inicia o servidor de desenvolvimento
-- `npm run build` - Cria build de produção
-- `npm run preview` - Visualiza a build de produção
-- `npm run lint` - Executa o linter
-
-## 🎨 Características
-
-- Interface moderna e responsiva
-- Suporte a tema claro/escuro
-- Gradientes e animações suaves
-- Estrutura preparada para expansão
-
+Este projeto foi criado por mim como parte do meu processo de aprendizado e treinamento em desenvolvimento web e visualização de dados.

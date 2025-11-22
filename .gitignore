@@ -34,3 +34,4 @@ build
 *.tsbuildinfo
 
 .vercel
+api_endpoints.txt
