@@ -150,6 +150,7 @@
 .champions-table th:nth-child(2),
 .champions-table td:nth-child(2) {
   width: 15%;
+  text-align: center;
 }
 
 .champions-table th:nth-child(n+3),
@@ -204,11 +205,18 @@
 
 .class-cell {
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.8rem 0.4rem;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .class-icon {
-  width: 26px;
-  height: 26px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
   display: inline-block;
 }

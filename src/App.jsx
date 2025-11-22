@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
@@ -6,23 +7,51 @@ import ChampionsTable from './pages/ChampionsTable'
 import Matches from './pages/Matches'
 import Rankings from './pages/Rankings'
 import Stats from './pages/Stats'
+import LoadingScreen from './components/LoadingScreen'
 import './App.css'
 
 function App() {
+  const [initialLoading, setInitialLoading] = useState(true)
+  const [fadingOut, setFadingOut] = useState(false)
+
+  useEffect(() => {
+    // Tela de carregamento inicial de 3 segundos
+    // Após 2.5s inicia o fade out, após 3s remove completamente
+    const fadeOutTimer = setTimeout(() => {
+      setFadingOut(true)
+    }, 2500)
+
+    const hideTimer = setTimeout(() => {
+      setInitialLoading(false)
+    }, 3000)
+
+    return () => {
+      clearTimeout(fadeOutTimer)
+      clearTimeout(hideTimer)
+    }
+  }, [])
+
   return (
-    <Router>
-      <div className="app">
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/champions" element={<Champions />} />
-          <Route path="/champions-table" element={<ChampionsTable />} />
-          <Route path="/matches" element={<Matches />} />
-          <Route path="/rankings" element={<Rankings />} />
-          <Route path="/stats" element={<Stats />} />
-        </Routes>
-      </div>
-    </Router>
+    <>
+      {initialLoading && (
+        <div className={fadingOut ? 'loading-screen fading-out' : 'loading-screen'}>
+          <LoadingScreen message="Carregando dashboard..." />
+        </div>
+      )}
+      <Router>
+        <div className={`app ${!initialLoading ? 'fading-in' : ''}`}>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/champions" element={<Champions />} />
+            <Route path="/champions-table" element={<ChampionsTable />} />
+            <Route path="/matches" element={<Matches />} />
+            <Route path="/rankings" element={<Rankings />} />
+            <Route path="/stats" element={<Stats />} />
+          </Routes>
+        </div>
+      </Router>
+    </>
   )
 }
 

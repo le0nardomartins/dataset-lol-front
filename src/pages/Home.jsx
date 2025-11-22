@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts'
 import { TrendingUp, Users, Trophy, Target } from 'lucide-react'
 import { api } from '../services/api'
+import LoadingScreen from '../components/LoadingScreen'
 import './style/Home.css'
 
 function Home() {
@@ -44,11 +45,7 @@ function Home() {
   const COLORS = ['#C89B3C', '#F0E6D2', '#785A28', '#C8AA6E', '#A09B8C', '#C89B3C', '#F0E6D2', '#785A28', '#C8AA6E', '#A09B8C']
 
   if (loading) {
-    return (
-      <div className="home-page">
-        <div className="loading">Carregando dados...</div>
-      </div>
-    )
+    return <LoadingScreen message="Carregando dados do dashboard..." />
   }
 
   return (

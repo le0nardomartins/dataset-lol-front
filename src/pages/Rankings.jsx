@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts'
 import { Trophy, TrendingUp, Award, Filter } from 'lucide-react'
 import { api } from '../services/api'
+import LoadingScreen from '../components/LoadingScreen'
 import './style/Rankings.css'
 
 function Rankings() {
@@ -39,11 +40,7 @@ function Rankings() {
   }))
 
   if (loading) {
-    return (
-      <div className="rankings-page">
-        <div className="loading">Carregando dados...</div>
-      </div>
-    )
+    return <LoadingScreen message="Carregando rankings..." />
   }
 
   return (

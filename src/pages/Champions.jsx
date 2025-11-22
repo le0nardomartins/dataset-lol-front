@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ScatterChart, Scatter, ZAxis } from 'recharts'
 import { Search, TrendingUp, Award, AlertCircle } from 'lucide-react'
 import { api } from '../services/api'
+import LoadingScreen from '../components/LoadingScreen'
 import './style/Champions.css'
 
 function Champions() {
@@ -44,11 +45,7 @@ function Champions() {
   const roles = ['top', 'jungle', 'mid', 'adc', 'support']
 
   if (loading) {
-    return (
-      <div className="champions-page">
-        <div className="loading">Carregando dados...</div>
-      </div>
-    )
+    return <LoadingScreen message="Carregando dados dos campeões..." />
   }
 
   return (

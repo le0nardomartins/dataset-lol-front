@@ -3,4 +3,10 @@
   min-height: 100vh;
   position: relative;
   background: var(--bg-primary);
+  opacity: 0;
+  transition: opacity 0.5s ease-in;
+}
+
+.app.fading-in {
+  opacity: 1;
 }

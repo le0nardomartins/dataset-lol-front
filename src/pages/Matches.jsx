@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts'
 import { Calendar, Filter, Download } from 'lucide-react'
 import { api } from '../services/api'
+import LoadingScreen from '../components/LoadingScreen'
 import './style/Matches.css'
 
 function Matches() {
@@ -69,11 +70,7 @@ function Matches() {
     .sort((a, b) => parseInt(a.range) - parseInt(b.range))
 
   if (loading) {
-    return (
-      <div className="matches-page">
-        <div className="loading">Carregando dados...</div>
-      </div>
-    )
+    return <LoadingScreen message="Carregando dados das partidas..." />
   }
 
   return (

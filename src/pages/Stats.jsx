@@ -3,6 +3,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { BarChart3, TrendingUp, Target, Activity } from 'lucide-react'
 import { api } from '../services/api'
 import { useChartColors } from '../hooks/useChartColors'
+import LoadingScreen from '../components/LoadingScreen'
 import './style/Stats.css'
 
 function Stats() {
@@ -31,11 +32,7 @@ function Stats() {
   }, [])
 
   if (loading) {
-    return (
-      <div className="stats-page">
-        <div className="loading">Carregando dados...</div>
-      </div>
-    )
+    return <LoadingScreen message="Carregando estatísticas..." />
   }
 
   const correlationData = correlations ? [

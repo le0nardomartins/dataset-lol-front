@@ -8,12 +8,29 @@ import assasinIcon from '../../assets/assasin.png'
 import shooterIcon from '../../assets/shooter.png'
 import tankIcon from '../../assets/tank.png'
 import supIcon from '../../assets/sup.png'
+import LoadingScreen from '../components/LoadingScreen'
 import './style/ChampionsTable.css'
 
 function ChampionsTable() {
   const [allChampions, setAllChampions] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [loading, setLoading] = useState(true)
+  const [classFilter, setClassFilter] = useState('todos')
+
+  const availableClasses = ['Lutador', 'Mago', 'Assassino', 'Atirador', 'Tanque', 'Suporte']
+
+  const normalizeClasses = (rawClass) => {
+    if (!rawClass) return ['Desconhecida']
+    if (Array.isArray(rawClass)) return rawClass
+    if (typeof rawClass === 'string') {
+      const parts = rawClass
+        .split(/[\/,]/)
+        .map((part) => part.trim())
+        .filter(Boolean)
+      return parts.length > 0 ? parts : ['Desconhecida']
+    }
+    return ['Desconhecida']
+  }
 
   const getClassIcon = (className) => {
     switch (className) {
@@ -40,7 +57,7 @@ function ChampionsTable() {
         // Começar com TODOS os campeões do mapeamento
         const allChampionsList = Object.keys(championClasses).map(champName => ({
           champion: champName,
-          class: championClasses[champName] || 'Desconhecida',
+          classes: normalizeClasses(championClasses[champName]),
           top: null,
           jungle: null,
           mid: null,
@@ -69,7 +86,7 @@ function ChampionsTable() {
               if (!championMap[champName]) {
                 championMap[champName] = {
                   champion: champName,
-                  class: championClasses[champName] || 'Desconhecida',
+              classes: normalizeClasses(championClasses[champName]),
                   top: null,
                   jungle: null,
                   mid: null,
@@ -96,7 +113,7 @@ function ChampionsTable() {
         // Em caso de erro, ainda mostra os campeões do mapeamento
         const fallbackChampions = Object.keys(championClasses).map(champName => ({
           champion: champName,
-          class: championClasses[champName] || 'Desconhecida',
+          classes: normalizeClasses(championClasses[champName]),
           top: null,
           jungle: null,
           mid: null,
@@ -112,10 +129,15 @@ function ChampionsTable() {
     fetchAllChampions()
   }, [])
 
-  const filteredAndSorted = allChampions
-    .filter(champ => {
-      return champ.champion.toLowerCase().includes(searchTerm.toLowerCase())
-    })
+  const filteredChampions = allChampions
+    .filter(champ =>
+      champ.champion.toLowerCase().includes(searchTerm.toLowerCase()),
+    )
+    .filter(champ =>
+      classFilter === 'todos'
+        ? true
+        : Array.isArray(champ.classes) && champ.classes.includes(classFilter),
+    )
 
   const handleRowClick = (champion) => {
     const url = getChampionUrl(champion)
@@ -124,11 +146,7 @@ function ChampionsTable() {
 
 
   if (loading) {
-    return (
-      <div className="champions-table-page">
-        <div className="loading">Carregando dados dos campeões...</div>
-      </div>
-    )
+    return <LoadingScreen message="Carregando dados dos campeões..." />
   }
 
   return (
@@ -150,10 +168,27 @@ function ChampionsTable() {
               className="search-input"
             />
           </div>
+
+          <div className="filter-group">
+            <label htmlFor="classFilter">Classe</label>
+            <select
+              id="classFilter"
+              className="filter-select"
+              value={classFilter}
+              onChange={(e) => setClassFilter(e.target.value)}
+            >
+              <option value="todos">Todas</option>
+              {availableClasses.map((cls) => (
+                <option key={cls} value={cls}>
+                  {cls}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div className="table-info">
-          <p>Total: {filteredAndSorted.length} campeões</p>
+          <p>Total: {filteredChampions.length} campeões</p>
           <p className="info-text">Clique em uma linha para abrir a página oficial do campeão</p>
         </div>
 
@@ -171,7 +206,7 @@ function ChampionsTable() {
               </tr>
             </thead>
             <tbody>
-              {filteredAndSorted.map((champ, idx) => (
+              {filteredChampions.map((champ, idx) => (
                 <tr 
                   key={idx} 
                   className="table-row-clickable"
@@ -181,16 +216,24 @@ function ChampionsTable() {
                     {champ.champion}
                   </td>
                   <td className="class-cell">
-                    {getClassIcon(champ.class) ? (
+                {Array.isArray(champ.classes) && champ.classes.length > 0 ? (
+                  champ.classes.map((cls) => {
+                    const icon = getClassIcon(cls)
+                    return icon ? (
                       <img
-                        src={getClassIcon(champ.class)}
-                        alt={champ.class}
+                        key={cls}
+                        src={icon}
+                        alt={cls}
                         className="class-icon"
                       />
                     ) : (
-                      <span>{champ.class}</span>
-                    )}
-                  </td>
+                      <span key={cls}>{cls}</span>
+                    )
+                  })
+                ) : (
+                  <span>-</span>
+                )}
+              </td>
                   <td className="win-rate-cell">
                     {champ.top ? (
                       <span className="win-rate">
