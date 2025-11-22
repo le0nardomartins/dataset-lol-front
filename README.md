@@ -19,19 +19,6 @@ Este projeto foi criado com o intuito de transformar um dataset em uma demonstra
 
 **⚠️ Importante**: Esta aplicação foi desenvolvida **apenas para fins de aprendizado e treinamento**. O objetivo principal é demonstrar como dados podem ser transformados em visualizações interativas e informativas.
 
-## 🚀 Como usar
-
-1. Instale as dependências:
-```bash
-npm install
-```
-
-2. Inicie o servidor de desenvolvimento:
-```bash
-npm run dev
-```
-
-3. Acesse `http://localhost:3000` no seu navegador
 
 ## 📝 Nota
 
