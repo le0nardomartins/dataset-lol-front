@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts'
 import { Calendar, Filter, Download } from 'lucide-react'
 import { api } from '../services/api'
-import './Matches.css'
+import './style/Matches.css'
 
 function Matches() {
   const [matches, setMatches] = useState([])

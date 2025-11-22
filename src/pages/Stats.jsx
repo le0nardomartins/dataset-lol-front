@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts'
 import { BarChart3, TrendingUp, Target, Activity } from 'lucide-react'
 import { api } from '../services/api'
-import './Stats.css'
+import './style/Stats.css'
 
 function Stats() {
   const [correlations, setCorrelations] = useState(null)

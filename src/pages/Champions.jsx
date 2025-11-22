@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ScatterChart, Scatter, ZAxis } from 'recharts'
 import { Search, TrendingUp, Award, AlertCircle } from 'lucide-react'
 import { api } from '../services/api'
-import './Champions.css'
+import './style/Champions.css'
 
 function Champions() {
   const [championStats, setChampionStats] = useState([])

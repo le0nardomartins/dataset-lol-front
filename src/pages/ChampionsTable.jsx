@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Search, ArrowUpDown, ArrowUp, ArrowDown, ExternalLink } from 'lucide-react'
 import { api } from '../services/api'
 import { championClasses, getChampionUrl } from '../data/championClasses'
-import './ChampionsTable.css'
+import './style/ChampionsTable.css'
 
 function ChampionsTable() {
   const [allChampions, setAllChampions] = useState([])

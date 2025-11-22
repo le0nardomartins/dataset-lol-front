@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts'
 import { Trophy, TrendingUp, Award, Filter } from 'lucide-react'
 import { api } from '../services/api'
-import './Rankings.css'
+import './style/Rankings.css'
 
 function Rankings() {
   const [kdaRanking, setKdaRanking] = useState([])
