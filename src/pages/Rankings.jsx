@@ -21,9 +21,11 @@ function Rankings() {
         if (selectedRole) params.role = selectedRole
 
         const data = await api.getChampionKDARanking(params)
-        setKdaRanking(data)
+        // Garantir que data seja um array
+        setKdaRanking(Array.isArray(data) ? data : [])
       } catch (error) {
         console.error('Erro ao carregar dados:', error)
+        setKdaRanking([])
       } finally {
         setLoading(false)
       }
@@ -32,12 +34,23 @@ function Rankings() {
     fetchData()
   }, [selectedRole, minGames])
 
-  const topKDA = kdaRanking.slice(0, 20)
-  const winRateData = kdaRanking.slice(0, 15).map(item => ({
-    champion: item.champion,
-    winRate: item.win_rate * 100,
-    kda: item.avg_kda
-  }))
+  const topKDA = kdaRanking
+    .filter(item => item.avg_kda != null && !isNaN(Number(item.avg_kda)))
+    .slice(0, 20)
+    .map(item => ({
+      ...item,
+      avg_kda: Number(item.avg_kda) || 0
+    }))
+  
+  const winRateData = kdaRanking
+    .filter(item => item.win_rate != null && item.avg_kda != null && 
+                    !isNaN(Number(item.win_rate)) && !isNaN(Number(item.avg_kda)))
+    .slice(0, 15)
+    .map(item => ({
+      champion: item.champion,
+      winRate: (Number(item.win_rate) || 0) * 100,
+      kda: Number(item.avg_kda) || 0
+    }))
 
   if (loading) {
     return <LoadingScreen message="Carregando rankings..." />
@@ -139,17 +152,26 @@ function Rankings() {
                 </tr>
               </thead>
               <tbody>
-                {kdaRanking.map((item, idx) => (
-                  <tr key={idx}>
-                    <td className="rank-cell">{idx + 1}</td>
-                    <td><strong>{item.champion}</strong></td>
-                    <td>{item.role}</td>
-                    <td>{item.games}</td>
-                    <td>{item.wins}</td>
-                    <td className="kda-cell">{item.avg_kda?.toFixed(2) || '-'}</td>
-                    <td>{(item.win_rate * 100).toFixed(1)}%</td>
-                  </tr>
-                ))}
+                {kdaRanking.map((item, idx) => {
+                  const kda = item.avg_kda != null ? Number(item.avg_kda) : null
+                  const winRate = item.win_rate != null ? Number(item.win_rate) : null
+                  
+                  return (
+                    <tr key={idx}>
+                      <td className="rank-cell">{idx + 1}</td>
+                      <td><strong>{item.champion}</strong></td>
+                      <td>{item.role}</td>
+                      <td>{item.games || '-'}</td>
+                      <td>{item.wins || '-'}</td>
+                      <td className="kda-cell">
+                        {kda != null && !isNaN(kda) ? kda.toFixed(2) : '-'}
+                      </td>
+                      <td>
+                        {winRate != null && !isNaN(winRate) ? (winRate * 100).toFixed(1) : '-'}%
+                      </td>
+                    </tr>
+                  )
+                })}
               </tbody>
             </table>
           </div>

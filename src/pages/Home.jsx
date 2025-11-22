@@ -20,8 +20,12 @@ function Home() {
           api.getCorrelations()
         ])
         
+        // Verificar se os dados são arrays válidos
+        const statsArray = Array.isArray(stats) ? stats : []
+        const rankingArray = Array.isArray(ranking) ? ranking : []
+        
         // Top 10 campeões por win rate
-        const topWinRate = [...stats]
+        const topWinRate = statsArray
           .sort((a, b) => b.win_rate - a.win_rate)
           .slice(0, 10)
           .map(item => ({
@@ -30,10 +34,14 @@ function Home() {
           }))
 
         setChampionStats(topWinRate)
-        setKdaRanking(ranking.slice(0, 10))
+        setKdaRanking(rankingArray.slice(0, 10))
         setCorrelations(corr)
       } catch (error) {
         console.error('Erro ao carregar dados:', error)
+        // Definir valores padrão em caso de erro
+        setChampionStats([])
+        setKdaRanking([])
+        setCorrelations(null)
       } finally {
         setLoading(false)
       }

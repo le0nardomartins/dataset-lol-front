@@ -16,9 +16,11 @@ function Champions() {
       try {
         const params = selectedRole ? { role: selectedRole } : {}
         const stats = await api.getChampionStats(params)
-        setChampionStats(stats)
+        // Garantir que stats seja um array
+        setChampionStats(Array.isArray(stats) ? stats : [])
       } catch (error) {
         console.error('Erro ao carregar dados:', error)
+        setChampionStats([])
       } finally {
         setLoading(false)
       }
@@ -32,15 +34,22 @@ function Champions() {
   )
 
   const topWinRate = [...filteredStats]
-    .sort((a, b) => b.win_rate - a.win_rate)
+    .filter(champ => champ.win_rate != null && !isNaN(Number(champ.win_rate)))
+    .sort((a, b) => (Number(b.win_rate) || 0) - (Number(a.win_rate) || 0))
     .slice(0, 15)
+    .map(champ => ({
+      ...champ,
+      win_rate: Number(champ.win_rate) || 0
+    }))
 
-  const avgGoldXP = filteredStats.map(champ => ({
-    champion: champ.champion,
-    gold: champ.avg_gold_14,
-    xp: champ.avg_xp_14,
-    winRate: champ.win_rate * 100
-  }))
+  const avgGoldXP = filteredStats
+    .filter(champ => champ.avg_gold_14 != null && champ.avg_xp_14 != null)
+    .map(champ => ({
+      champion: champ.champion,
+      gold: Number(champ.avg_gold_14) || 0,
+      xp: Number(champ.avg_xp_14) || 0,
+      winRate: (Number(champ.win_rate) || 0) * 100
+    }))
 
   const roles = ['top', 'jungle', 'mid', 'adc', 'support']
 
@@ -159,17 +168,23 @@ function Champions() {
                 </tr>
               </thead>
               <tbody>
-                {filteredStats.slice(0, 50).map((champ, idx) => (
-                  <tr key={idx}>
-                    <td><strong>{champ.champion}</strong></td>
-                    <td>{champ.role}</td>
-                    <td>{champ.games}</td>
-                    <td>{champ.wins}</td>
-                    <td>{(champ.win_rate * 100).toFixed(1)}%</td>
-                    <td>{champ.avg_gold_14?.toFixed(0) || '-'}</td>
-                    <td>{champ.avg_xp_14?.toFixed(0) || '-'}</td>
-                  </tr>
-                ))}
+                {filteredStats.slice(0, 50).map((champ, idx) => {
+                  const gold14 = champ.avg_gold_14 != null ? Number(champ.avg_gold_14) : null
+                  const xp14 = champ.avg_xp_14 != null ? Number(champ.avg_xp_14) : null
+                  const winRate = champ.win_rate != null ? Number(champ.win_rate) : 0
+                  
+                  return (
+                    <tr key={idx}>
+                      <td><strong>{champ.champion}</strong></td>
+                      <td>{champ.role}</td>
+                      <td>{champ.games || '-'}</td>
+                      <td>{champ.wins || '-'}</td>
+                      <td>{!isNaN(winRate) ? (winRate * 100).toFixed(1) : '-'}%</td>
+                      <td>{gold14 != null && !isNaN(gold14) ? gold14.toFixed(0) : '-'}</td>
+                      <td>{xp14 != null && !isNaN(xp14) ? xp14.toFixed(0) : '-'}</td>
+                    </tr>
+                  )
+                })}
               </tbody>
             </table>
           </div>

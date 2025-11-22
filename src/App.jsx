@@ -38,7 +38,12 @@ function App() {
           <LoadingScreen message="Carregando dashboard..." />
         </div>
       )}
-      <Router>
+      <Router
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true
+        }}
+      >
         <div className={`app ${!initialLoading ? 'fading-in' : ''}`}>
           <Navbar />
           <Routes>

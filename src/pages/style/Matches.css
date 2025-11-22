@@ -263,7 +263,7 @@ thead {
 
 th {
   padding: 1.2rem 1rem;
-  text-align: left;
+  text-align: center;
   font-weight: 600;
   color: var(--accent-gold);
   font-size: 0.95rem;
@@ -294,6 +294,7 @@ td {
   color: var(--text-primary);
   font-size: 0.95rem;
   transition: background-color 0.2s ease;
+  text-align: center;
 }
 
 tbody tr:hover {
