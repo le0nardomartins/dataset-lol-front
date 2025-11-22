@@ -41,7 +41,7 @@ function Home() {
     fetchData()
   }, [])
 
-  const COLORS = ['#2563eb', '#1e40af', '#3b82f6', '#60a5fa', '#93c5fd', '#1d4ed8', '#1e3a8a', '#1e40af', '#2563eb', '#3b82f6']
+  const COLORS = ['#C89B3C', '#F0E6D2', '#785A28', '#C8AA6E', '#A09B8C', '#C89B3C', '#F0E6D2', '#785A28', '#C8AA6E', '#A09B8C']
 
   if (loading) {
     return (
@@ -101,17 +101,18 @@ function Home() {
             <h3 className="chart-title">Top 10 Campeões por Win Rate</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={championStats}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 12 }} />
-                <YAxis tick={{ fill: '#64748b', fontSize: 12 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(200, 155, 60, 0.2)" />
+                <XAxis dataKey="name" tick={{ fill: '#C89B3C', fontSize: 12 }} />
+                <YAxis tick={{ fill: '#C89B3C', fontSize: 12 }} />
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: '#fff', 
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '8px'
+                    backgroundColor: '#1E2328', 
+                    border: '1px solid rgba(200, 155, 60, 0.3)',
+                    borderRadius: '8px',
+                    color: '#F0E6D2'
                   }}
                 />
-                <Bar dataKey="value" fill="#2563eb" radius={[8, 8, 0, 0]} />
+                <Bar dataKey="value" fill="#C89B3C" radius={[8, 8, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -120,17 +121,18 @@ function Home() {
             <h3 className="chart-title">Top 10 KDA Ranking</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={kdaRanking}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="champion" tick={{ fill: '#64748b', fontSize: 12 }} />
-                <YAxis tick={{ fill: '#64748b', fontSize: 12 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(200, 155, 60, 0.2)" />
+                <XAxis dataKey="champion" tick={{ fill: '#C89B3C', fontSize: 12 }} />
+                <YAxis tick={{ fill: '#C89B3C', fontSize: 12 }} />
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: '#fff', 
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '8px'
+                    backgroundColor: '#1E2328', 
+                    border: '1px solid rgba(200, 155, 60, 0.3)',
+                    borderRadius: '8px',
+                    color: '#F0E6D2'
                   }}
                 />
-                <Bar dataKey="avg_kda" fill="#1e40af" radius={[8, 8, 0, 0]} />
+                <Bar dataKey="avg_kda" fill="#C89B3C" radius={[8, 8, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

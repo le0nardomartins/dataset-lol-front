@@ -87,17 +87,18 @@ function Rankings() {
             <h3 className="chart-title">Top 20 KDA Ranking</h3>
             <ResponsiveContainer width="100%" height={400}>
               <BarChart data={topKDA}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="champion" tick={{ fill: '#64748b', fontSize: 11 }} angle={-45} textAnchor="end" height={100} />
-                <YAxis tick={{ fill: '#64748b', fontSize: 12 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(200, 155, 60, 0.2)" />
+                <XAxis dataKey="champion" tick={{ fill: '#C89B3C', fontSize: 11 }} angle={-45} textAnchor="end" height={100} />
+                <YAxis tick={{ fill: '#C89B3C', fontSize: 12 }} />
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: '#fff', 
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '8px'
+                    backgroundColor: '#1E2328', 
+                    border: '1px solid rgba(200, 155, 60, 0.3)',
+                    borderRadius: '8px',
+                    color: '#F0E6D2'
                   }}
                 />
-                <Bar dataKey="avg_kda" fill="#2563eb" radius={[8, 8, 0, 0]} />
+                <Bar dataKey="avg_kda" fill="#C89B3C" radius={[8, 8, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -106,19 +107,20 @@ function Rankings() {
             <h3 className="chart-title">Win Rate vs KDA (Top 15)</h3>
             <ResponsiveContainer width="100%" height={400}>
               <LineChart data={winRateData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="champion" tick={{ fill: '#64748b', fontSize: 11 }} angle={-45} textAnchor="end" height={100} />
-                <YAxis yAxisId="left" tick={{ fill: '#64748b', fontSize: 12 }} />
-                <YAxis yAxisId="right" orientation="right" tick={{ fill: '#64748b', fontSize: 12 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(200, 155, 60, 0.2)" />
+                <XAxis dataKey="champion" tick={{ fill: '#C89B3C', fontSize: 11 }} angle={-45} textAnchor="end" height={100} />
+                <YAxis yAxisId="left" tick={{ fill: '#C89B3C', fontSize: 12 }} />
+                <YAxis yAxisId="right" orientation="right" tick={{ fill: '#C89B3C', fontSize: 12 }} />
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: '#fff', 
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '8px'
+                    backgroundColor: '#1E2328', 
+                    border: '1px solid rgba(200, 155, 60, 0.3)',
+                    borderRadius: '8px',
+                    color: '#F0E6D2'
                   }}
                 />
-                <Line yAxisId="left" type="monotone" dataKey="winRate" stroke="#2563eb" strokeWidth={2} name="Win Rate %" />
-                <Line yAxisId="right" type="monotone" dataKey="kda" stroke="#1e40af" strokeWidth={2} name="KDA" />
+                <Line yAxisId="left" type="monotone" dataKey="winRate" stroke="#C89B3C" strokeWidth={2} name="Win Rate %" />
+                <Line yAxisId="right" type="monotone" dataKey="kda" stroke="#F0E6D2" strokeWidth={2} name="KDA" />
               </LineChart>
             </ResponsiveContainer>
           </div>

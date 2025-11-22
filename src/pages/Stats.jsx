@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts'
 import { BarChart3, TrendingUp, Target, Activity } from 'lucide-react'
 import { api } from '../services/api'
+import { useChartColors } from '../hooks/useChartColors'
 import './style/Stats.css'
 
 function Stats() {
   const [correlations, setCorrelations] = useState(null)
   const [kdaVsWin, setKdaVsWin] = useState(null)
   const [loading, setLoading] = useState(true)
+  const colors = useChartColors()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,7 +54,7 @@ function Stats() {
     correlation: Math.abs(role.corr_kda_win * 100)
   })) || []
 
-  const COLORS = ['#2563eb', '#1e40af', '#3b82f6', '#60a5fa', '#93c5fd']
+  const COLORS = colors.palette
 
   return (
     <div className="stats-page">
@@ -106,18 +108,19 @@ function Stats() {
             <h3 className="chart-title">Correlações Early Game vs Vitória</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={correlationData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 12 }} />
-                <YAxis tick={{ fill: '#64748b', fontSize: 12 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={colors.gridStroke} />
+                <XAxis dataKey="name" tick={{ fill: colors.tickFill, fontSize: 12 }} />
+                <YAxis tick={{ fill: colors.tickFill, fontSize: 12 }} />
                 <Tooltip 
                   formatter={(value) => `${value}%`}
                   contentStyle={{ 
-                    backgroundColor: '#fff', 
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '8px'
+                    backgroundColor: colors.tooltipBg, 
+                    border: `1px solid ${colors.tooltipBorder}`,
+                    borderRadius: '8px',
+                    color: colors.tickFill
                   }}
                 />
-                <Bar dataKey="value" fill="#2563eb" radius={[8, 8, 0, 0]} />
+                <Bar dataKey="value" fill={colors.barFill} radius={[8, 8, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -126,18 +129,19 @@ function Stats() {
             <h3 className="chart-title">Correlação KDA vs Vitória por Role</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={roleData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="role" tick={{ fill: '#64748b', fontSize: 12 }} />
-                <YAxis tick={{ fill: '#64748b', fontSize: 12 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={colors.gridStroke} />
+                <XAxis dataKey="role" tick={{ fill: colors.tickFill, fontSize: 12 }} />
+                <YAxis tick={{ fill: colors.tickFill, fontSize: 12 }} />
                 <Tooltip 
                   formatter={(value) => `${value}%`}
                   contentStyle={{ 
-                    backgroundColor: '#fff', 
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '8px'
+                    backgroundColor: colors.tooltipBg, 
+                    border: `1px solid ${colors.tooltipBorder}`,
+                    borderRadius: '8px',
+                    color: colors.tickFill
                   }}
                 />
-                <Bar dataKey="correlation" fill="#1e40af" radius={[8, 8, 0, 0]} />
+                <Bar dataKey="correlation" fill={colors.barFillAlt} radius={[8, 8, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -146,16 +150,17 @@ function Stats() {
             <h3 className="chart-title">Distribuição de Correlação por Role</h3>
             <ResponsiveContainer width="100%" height={300}>
               <RadarChart data={radarData}>
-                <PolarGrid stroke="#e2e8f0" />
-                <PolarAngleAxis dataKey="role" tick={{ fill: '#64748b', fontSize: 11 }} />
-                <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: '#64748b', fontSize: 10 }} />
-                <Radar name="Correlação" dataKey="correlation" stroke="#2563eb" fill="#2563eb" fillOpacity={0.3} />
+                <PolarGrid stroke={colors.gridStroke} />
+                <PolarAngleAxis dataKey="role" tick={{ fill: colors.tickFill, fontSize: 11 }} />
+                <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: colors.tickFill, fontSize: 10 }} />
+                <Radar name="Correlação" dataKey="correlation" stroke={colors.primary} fill={colors.primary} fillOpacity={0.3} />
                 <Tooltip 
                   formatter={(value) => `${value}%`}
                   contentStyle={{ 
-                    backgroundColor: '#fff', 
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '8px'
+                    backgroundColor: colors.tooltipBg, 
+                    border: `1px solid ${colors.tooltipBorder}`,
+                    borderRadius: '8px',
+                    color: colors.tickFill
                   }}
                 />
               </RadarChart>

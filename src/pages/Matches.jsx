@@ -136,18 +136,19 @@ function Matches() {
             <h3 className="chart-title">Win Rate por Campeão (Top 15)</h3>
             <ResponsiveContainer width="100%" height={350}>
               <BarChart data={winRateData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="champion" tick={{ fill: '#64748b', fontSize: 11 }} angle={-45} textAnchor="end" height={100} />
-                <YAxis tick={{ fill: '#64748b', fontSize: 12 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(200, 155, 60, 0.2)" />
+                <XAxis dataKey="champion" tick={{ fill: '#C89B3C', fontSize: 11 }} angle={-45} textAnchor="end" height={100} />
+                <YAxis tick={{ fill: '#C89B3C', fontSize: 12 }} />
                 <Tooltip 
                   formatter={(value) => `${value.toFixed(1)}%`}
                   contentStyle={{ 
-                    backgroundColor: '#fff', 
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '8px'
+                    backgroundColor: '#1E2328', 
+                    border: '1px solid rgba(200, 155, 60, 0.3)',
+                    borderRadius: '8px',
+                    color: '#F0E6D2'
                   }}
                 />
-                <Bar dataKey="winRate" fill="#2563eb" radius={[8, 8, 0, 0]} />
+                <Bar dataKey="winRate" fill="#C89B3C" radius={[8, 8, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -156,17 +157,18 @@ function Matches() {
             <h3 className="chart-title">Distribuição de Ouro aos 14min</h3>
             <ResponsiveContainer width="100%" height={350}>
               <BarChart data={goldData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="range" tick={{ fill: '#64748b', fontSize: 12 }} />
-                <YAxis tick={{ fill: '#64748b', fontSize: 12 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(200, 155, 60, 0.2)" />
+                <XAxis dataKey="range" tick={{ fill: '#C89B3C', fontSize: 12 }} />
+                <YAxis tick={{ fill: '#C89B3C', fontSize: 12 }} />
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: '#fff', 
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '8px'
+                    backgroundColor: '#1E2328', 
+                    border: '1px solid rgba(200, 155, 60, 0.3)',
+                    borderRadius: '8px',
+                    color: '#F0E6D2'
                   }}
                 />
-                <Bar dataKey="count" fill="#1e40af" radius={[8, 8, 0, 0]} />
+                <Bar dataKey="count" fill="#C89B3C" radius={[8, 8, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

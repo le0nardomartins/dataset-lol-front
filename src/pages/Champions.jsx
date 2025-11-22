@@ -94,18 +94,19 @@ function Champions() {
             <h3 className="chart-title">Top 15 Win Rate</h3>
             <ResponsiveContainer width="100%" height={400}>
               <BarChart data={topWinRate} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis type="number" domain={[0, 1]} tick={{ fill: '#64748b', fontSize: 12 }} />
-                <YAxis dataKey="champion" type="category" tick={{ fill: '#64748b', fontSize: 11 }} width={100} />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(200, 155, 60, 0.2)" />
+                <XAxis type="number" domain={[0, 1]} tick={{ fill: '#C89B3C', fontSize: 12 }} />
+                <YAxis dataKey="champion" type="category" tick={{ fill: '#C89B3C', fontSize: 11 }} width={100} />
                 <Tooltip 
                   formatter={(value) => `${(value * 100).toFixed(1)}%`}
                   contentStyle={{ 
-                    backgroundColor: '#fff', 
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '8px'
+                    backgroundColor: '#1E2328', 
+                    border: '1px solid rgba(200, 155, 60, 0.3)',
+                    borderRadius: '8px',
+                    color: '#F0E6D2'
                   }}
                 />
-                <Bar dataKey="win_rate" fill="#2563eb" radius={[0, 8, 8, 0]} />
+                <Bar dataKey="win_rate" fill="#C89B3C" radius={[0, 8, 8, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -114,31 +115,32 @@ function Champions() {
             <h3 className="chart-title">Ouro vs XP aos 14min</h3>
             <ResponsiveContainer width="100%" height={400}>
               <ScatterChart data={avgGoldXP}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(200, 155, 60, 0.2)" />
                 <XAxis 
                   type="number" 
                   dataKey="gold" 
                   name="Ouro"
-                  tick={{ fill: '#64748b', fontSize: 12 }}
-                  label={{ value: 'Ouro aos 14min', position: 'insideBottom', offset: -5, fill: '#64748b' }}
+                  tick={{ fill: '#C89B3C', fontSize: 12 }}
+                  label={{ value: 'Ouro aos 14min', position: 'insideBottom', offset: -5, fill: '#C89B3C' }}
                 />
                 <YAxis 
                   type="number" 
                   dataKey="xp" 
                   name="XP"
-                  tick={{ fill: '#64748b', fontSize: 12 }}
-                  label={{ value: 'XP aos 14min', angle: -90, position: 'insideLeft', fill: '#64748b' }}
+                  tick={{ fill: '#C89B3C', fontSize: 12 }}
+                  label={{ value: 'XP aos 14min', angle: -90, position: 'insideLeft', fill: '#C89B3C' }}
                 />
                 <ZAxis dataKey="winRate" range={[50, 400]} />
                 <Tooltip 
                   cursor={{ strokeDasharray: '3 3' }}
                   contentStyle={{ 
-                    backgroundColor: '#fff', 
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '8px'
+                    backgroundColor: '#1E2328', 
+                    border: '1px solid rgba(200, 155, 60, 0.3)',
+                    borderRadius: '8px',
+                    color: '#F0E6D2'
                   }}
                 />
-                <Scatter dataKey="winRate" fill="#2563eb" />
+                <Scatter dataKey="winRate" fill="#C89B3C" />
               </ScatterChart>
             </ResponsiveContainer>
           </div>

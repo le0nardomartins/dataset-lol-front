@@ -1,15 +1,80 @@
+/* Cores globais e temas (LoL clean + dark elegante) */
 :root {
   font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color: #1e293b;
-  background-color: #ffffff;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Paleta base LoL (referência) */
+  --lol-gold: #C9A24F;
+  --lol-gold-light: #EAC566;
+  --lol-gold-dark: #8C6B2F;
+  --lol-blue: #102C57;
+  --lol-blue-dark: #1C3E78;
+  --lol-blue-darker: #1B2A41;
+
+  /* Tema CLARO - Dashboard LoL Clean */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #FAFAFA;
+  --bg-tertiary: #F5F5F5;
+
+  --text-primary: #0D1B2A;
+  --text-secondary: #3A4750;
+  --text-tertiary: #6E7682;
+
+  --border-color: #E6E6E6;
+  --border-light: #E6E6E6;
+
+  --card-bg: #FAFAFA;
+  --card-border: #E6E6E6;
+
+  --shadow-color: rgba(0, 0, 0, 0.05);
+
+  --gold-main: #C9A24F;
+  --gold-strong: #D7A93F;
+  --gold-light: #EAC566;
+
+  --accent-gold: var(--gold-main);
+
+  --blue-primary: #102C57;
+  --blue-secondary: #1C3E78;
+  --accent-blue: var(--blue-primary);
+
+  --glow-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='dark'] {
+  /* Tema ESCURO - Dark elegante LoL */
+  --bg-primary: #0B0E11;
+  --bg-secondary: #111418;
+  --bg-tertiary: #161A20;
+
+  --text-primary: #E6E6E6;
+  --text-secondary: #A7AEB9;
+  --text-tertiary: #6E7682;
+
+  --border-color: #1F242C;
+  --border-light: #1F242C;
+
+  --card-bg: #111418;
+  --card-border: #1F242C;
+
+  --shadow-color: rgba(0, 0, 0, 0.35);
+
+  --gold-main: #C8A24F;
+  --gold-strong: #8C6B2F;
+  --gold-light: #E8C77A;
+
+  --accent-gold: var(--gold-main);
+
+  --blue-primary: #1B2A41;
+  --blue-secondary: #1B2A41;
+  --accent-blue: var(--blue-primary);
+
+  --glow-color: rgba(0, 0, 0, 0.45);
 }
 
 * {
@@ -22,32 +87,18 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: #ffffff;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   overflow-x: hidden;
   position: relative;
 }
 
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-    radial-gradient(ellipse at 20% 20%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 80%, rgba(37, 99, 235, 0.03) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: 0;
-  animation: background-pulse 8s ease-in-out infinite;
-}
-
 @keyframes background-pulse {
   0%, 100% {
-    opacity: 1;
+    opacity: 0.3;
   }
   50% {
-    opacity: 0.7;
+    opacity: 0.6;
   }
 }
 
@@ -60,20 +111,22 @@ body::before {
 
 /* Scrollbar personalizada */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 12px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: var(--bg-tertiary);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
-  border-radius: 5px;
+  background: linear-gradient(180deg, var(--accent-gold) 0%, var(--lol-gold-dark) 100%);
+  border-radius: 6px;
+  border: 2px solid var(--bg-tertiary);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 100%);
+  background: linear-gradient(180deg, var(--lol-gold-light) 0%, var(--accent-gold) 100%);
+  box-shadow: 0 0 10px var(--glow-color);
 }
 
 /* Botões globais */
@@ -85,10 +138,11 @@ body::before {
   font-size: 0.95rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: linear-gradient(135deg, #1e40af 0%, #2563eb 50%, #3b82f6 100%);
-  color: #ffffff;
+  background: linear-gradient(135deg, var(--accent-gold) 0%, var(--lol-gold-dark) 50%, var(--accent-gold) 100%);
+  color: var(--text-primary);
   position: relative;
   overflow: hidden;
+  box-shadow: 0 4px 15px var(--shadow-color);
 }
 
 .btn::before {
@@ -98,7 +152,7 @@ body::before {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
   transition: left 0.5s ease;
 }
 
@@ -108,7 +162,8 @@ body::before {
 
 .btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 6px 25px var(--glow-color), 0 0 30px var(--glow-color);
+  filter: brightness(1.1);
 }
 
 .btn:active {
@@ -116,10 +171,62 @@ body::before {
 }
 
 .btn-secondary {
-  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 50%, #0e7490 100%);
+  background: linear-gradient(135deg, var(--accent-blue) 0%, var(--lol-blue-dark) 50%, var(--lol-blue-darker) 100%);
 }
 
 .btn-secondary:hover {
-  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.3);
+  box-shadow: 0 6px 25px rgba(10, 200, 185, 0.4), 0 0 30px rgba(10, 200, 185, 0.3);
 }
 
+/* Animações globais */
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 10px var(--glow-color);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--glow-color), 0 0 30px var(--glow-color);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Efeitos de brilho */
+.glow-effect {
+  position: relative;
+}
+
+.glow-effect::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, var(--glow-color) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.glow-effect:hover::after {
+  opacity: 0.5;
+  animation: glow-pulse 2s ease-in-out infinite;
+}

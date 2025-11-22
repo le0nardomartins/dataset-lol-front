@@ -1,9 +1,11 @@
 import { Link, useLocation } from 'react-router-dom'
-import { Home, Trophy, BarChart3, Users, TrendingUp } from 'lucide-react'
+import { Home, Trophy, BarChart3, Users, TrendingUp, Sun, Moon } from 'lucide-react'
+import { useTheme } from '../contexts/ThemeContext'
 import './Navbar.css'
 
 function Navbar() {
   const location = useLocation()
+  const { theme, toggleTheme } = useTheme()
 
   const isActive = (path) => location.pathname === path
 
@@ -11,6 +13,7 @@ function Navbar() {
     <nav className="navbar">
       <div className="navbar-container">
         <div className="navbar-logo">
+          <img src="/logo.png" alt="LoL Dashboard" className="logo-image" />
           <span className="logo-text">LoL Dashboard</span>
         </div>
         
@@ -68,6 +71,16 @@ function Navbar() {
               <BarChart3 size={18} />
               <span className="nav-text">Estatísticas</span>
             </Link>
+          </li>
+          <li>
+            <button
+              type="button"
+              className="theme-toggle"
+              onClick={toggleTheme}
+              aria-label="Alternar tema claro/escuro"
+            >
+              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
           </li>
         </ul>
       </div>

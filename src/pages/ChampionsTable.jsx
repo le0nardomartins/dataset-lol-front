@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Search, ArrowUpDown, ArrowUp, ArrowDown, ExternalLink } from 'lucide-react'
+import { Search } from 'lucide-react'
 import { api } from '../services/api'
 import { championClasses, getChampionUrl } from '../data/championClasses'
 import './style/ChampionsTable.css'
@@ -7,10 +7,6 @@ import './style/ChampionsTable.css'
 function ChampionsTable() {
   const [allChampions, setAllChampions] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
-  const [classFilter, setClassFilter] = useState('')
-  const [roleFilter, setRoleFilter] = useState('')
-  const [sortField, setSortField] = useState('champion')
-  const [sortDirection, setSortDirection] = useState('asc')
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -91,66 +87,16 @@ function ChampionsTable() {
     fetchAllChampions()
   }, [])
 
-  const handleSort = (field) => {
-    if (sortField === field) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
-    } else {
-      setSortField(field)
-      setSortDirection('asc')
-    }
-  }
-
   const filteredAndSorted = allChampions
     .filter(champ => {
-      const matchesSearch = champ.champion.toLowerCase().includes(searchTerm.toLowerCase())
-      const matchesClass = !classFilter || champ.class === classFilter
-      // Se roleFilter está vazio, mostra todos. Se tem filtro, mostra apenas os que têm dados nessa role
-      const matchesRole = !roleFilter || champ[roleFilter] !== null
-      return matchesSearch && matchesClass && matchesRole
+      return champ.champion.toLowerCase().includes(searchTerm.toLowerCase())
     })
-    .sort((a, b) => {
-      let aValue, bValue
-
-      if (sortField === 'champion') {
-        aValue = a.champion.toLowerCase()
-        bValue = b.champion.toLowerCase()
-      } else if (sortField === 'class') {
-        aValue = a.class
-        bValue = b.class
-      } else {
-        // Ordenar por win rate de uma role específica
-        const role = sortField
-        aValue = a[role]?.winRate || 0
-        bValue = b[role]?.winRate || 0
-      }
-
-      if (sortDirection === 'asc') {
-        return aValue > bValue ? 1 : aValue < bValue ? -1 : 0
-      } else {
-        return aValue < bValue ? 1 : aValue > bValue ? -1 : 0
-      }
-    })
-
-  const classes = [...new Set(Object.values(championClasses))]
-  const roles = [
-    { key: 'top', label: 'Top' },
-    { key: 'jungle', label: 'JG' },
-    { key: 'mid', label: 'Mid' },
-    { key: 'adc', label: 'ADC' },
-    { key: 'support', label: 'Sup' }
-  ]
 
   const handleRowClick = (champion) => {
     const url = getChampionUrl(champion)
     window.open(url, '_blank')
   }
 
-  const getSortIcon = (field) => {
-    if (sortField !== field) {
-      return <ArrowUpDown size={14} />
-    }
-    return sortDirection === 'asc' ? <ArrowUp size={14} /> : <ArrowDown size={14} />
-  }
 
   if (loading) {
     return (
@@ -179,32 +125,6 @@ function ChampionsTable() {
               className="search-input"
             />
           </div>
-          <div className="filter-group">
-            <label>Classe:</label>
-            <select
-              value={classFilter}
-              onChange={(e) => setClassFilter(e.target.value)}
-              className="filter-select"
-            >
-              <option value="">Todas</option>
-              {classes.sort().map(cls => (
-                <option key={cls} value={cls}>{cls}</option>
-              ))}
-            </select>
-          </div>
-          <div className="filter-group">
-            <label>Com dados em:</label>
-            <select
-              value={roleFilter}
-              onChange={(e) => setRoleFilter(e.target.value)}
-              className="filter-select"
-            >
-              <option value="">Todas as posições</option>
-              {roles.map(role => (
-                <option key={role.key} value={role.key}>{role.label}</option>
-              ))}
-            </select>
-          </div>
         </div>
 
         <div className="table-info">
@@ -216,49 +136,13 @@ function ChampionsTable() {
           <table className="champions-table">
             <thead>
               <tr>
-                <th 
-                  className="sortable" 
-                  onClick={() => handleSort('champion')}
-                >
-                  Campeão {getSortIcon('champion')}
-                </th>
-                <th 
-                  className="sortable" 
-                  onClick={() => handleSort('class')}
-                >
-                  Classe {getSortIcon('class')}
-                </th>
-                <th 
-                  className="sortable" 
-                  onClick={() => handleSort('top')}
-                >
-                  Top {getSortIcon('top')}
-                </th>
-                <th 
-                  className="sortable" 
-                  onClick={() => handleSort('jungle')}
-                >
-                  JG {getSortIcon('jungle')}
-                </th>
-                <th 
-                  className="sortable" 
-                  onClick={() => handleSort('mid')}
-                >
-                  Mid {getSortIcon('mid')}
-                </th>
-                <th 
-                  className="sortable" 
-                  onClick={() => handleSort('adc')}
-                >
-                  ADC {getSortIcon('adc')}
-                </th>
-                <th 
-                  className="sortable" 
-                  onClick={() => handleSort('support')}
-                >
-                  Sup {getSortIcon('support')}
-                </th>
-                <th>Ação</th>
+                <th>Campeão</th>
+                <th>Classe</th>
+                <th>Top</th>
+                <th>JG</th>
+                <th>Mid</th>
+                <th>ADC</th>
+                <th>Sup</th>
               </tr>
             </thead>
             <tbody>
@@ -269,7 +153,7 @@ function ChampionsTable() {
                   onClick={() => handleRowClick(champ.champion)}
                 >
                   <td className="champion-name">
-                    <strong>{champ.champion}</strong>
+                    {champ.champion}
                   </td>
                   <td>{champ.class}</td>
                   <td className="win-rate-cell">
@@ -321,17 +205,6 @@ function ChampionsTable() {
                     ) : (
                       <span className="no-data">-</span>
                     )}
-                  </td>
-                  <td className="action-cell">
-                    <a
-                      href={getChampionUrl(champ.champion)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="external-link"
-                    >
-                      <ExternalLink size={16} />
-                    </a>
                   </td>
                 </tr>
               ))}
