@@ -10,6 +10,8 @@ As análises foram feitas com base nos dados, que em grande parte são dos servi
 
 Esse dashboard não foi feito levando em conta partidas normais, e sim **apenas rankeds a nível Diamante e Challenger**. Mais de **126 mil partidas** foram extraídas e o servidor analisa elas, tornando bem preciso, para o ano de 2025, as métricas e resultados estatísticos.
 
+**Link para o projeto na vercel: https://dataset-lol-front.vercel.app/**
+
 > ⚠️ **Atenção**: Para anos posteriores, desconsidere essas análises. Alguns campeões podem ter sido nerfados, builds podem ter mudado e diversos outros fatores podem ter alterado o meta do jogo.
 
 ## 🎯 Objetivo Principal
