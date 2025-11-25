@@ -63,7 +63,3 @@ Este projeto foi criado por mim como parte do meu processo de aprendizado e trei
 ## 🔗 Links Relacionados
 
 - **[Site Oficial do League of Legends](https://www.leagueoflegends.com/pt-br/)** - Descubra mais sobre o jogo que inspirou este projeto
-
----
-
-**Desenvolvido com 💛 para fins educacionais**
