@@ -40,6 +40,13 @@ export const api = {
     return fetchWithErrorHandling(url);
   },
 
+  getChampionWinRate: async (params = {}) => {
+    const queryParams = new URLSearchParams(params).toString();
+    const url = `${API_BASE_URL}/champions/win-rate${queryParams ? `?${queryParams}` : ''}`;
+    console.log('GET:', url);
+    return fetchWithErrorHandling(url);
+  },
+
   getChampionKDARanking: async (params = {}) => {
     const queryParams = new URLSearchParams(params).toString();
     const url = `${API_BASE_URL}/champions/kda-ranking${queryParams ? `?${queryParams}` : ''}`;
@@ -66,6 +73,35 @@ export const api = {
     return fetchWithErrorHandling(url);
   },
 
+  // Champions by role
+  getRolesKDATop: async (params = {}) => {
+    const queryParams = new URLSearchParams(params).toString();
+    const url = `${API_BASE_URL}/champions/roles/kda-top20${queryParams ? `?${queryParams}` : ''}`;
+    console.log('GET:', url);
+    return fetchWithErrorHandling(url);
+  },
+
+  getRolesWinRateKDATop: async (params = {}) => {
+    const queryParams = new URLSearchParams(params).toString();
+    const url = `${API_BASE_URL}/champions/roles/winrate-kda-top15${queryParams ? `?${queryParams}` : ''}`;
+    console.log('GET:', url);
+    return fetchWithErrorHandling(url);
+  },
+
+  getRoleRanking: async (role, params = {}) => {
+    const queryParams = new URLSearchParams(params).toString();
+    const url = `${API_BASE_URL}/champions/roles/${role}/ranking${queryParams ? `?${queryParams}` : ''}`;
+    console.log('GET:', url);
+    return fetchWithErrorHandling(url);
+  },
+
+  getPickRateByRole: async (params = {}) => {
+    const queryParams = new URLSearchParams(params).toString();
+    const url = `${API_BASE_URL}/champions/roles/pick-rate${queryParams ? `?${queryParams}` : ''}`;
+    console.log('GET:', url);
+    return fetchWithErrorHandling(url);
+  },
+
   // Stats
   getCorrelations: async () => {
     const url = `${API_BASE_URL}/stats/correlations`;
@@ -75,6 +111,12 @@ export const api = {
 
   getKDAVsWin: async () => {
     const url = `${API_BASE_URL}/stats/kda-vs-win`;
+    console.log('GET:', url);
+    return fetchWithErrorHandling(url);
+  },
+
+  getAdvancedCorrelations: async () => {
+    const url = `${API_BASE_URL}/stats/advanced-correlations`;
     console.log('GET:', url);
     return fetchWithErrorHandling(url);
   },

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ScatterChart, Scatter, ZAxis } from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ScatterChart, Scatter, ZAxis, Legend } from 'recharts'
 import { Search, TrendingUp, Award, AlertCircle } from 'lucide-react'
 import { api } from '../services/api'
 import LoadingScreen from '../components/LoadingScreen'
@@ -146,7 +146,11 @@ function Champions() {
                     color: '#F0E6D2'
                   }}
                 />
-                <Scatter dataKey="winRate" fill="#C89B3C" />
+                <Legend 
+                  wrapperStyle={{ color: '#C89B3C' }}
+                  iconType="circle"
+                />
+                <Scatter name="Win Rate" dataKey="winRate" fill="#C89B3C" />
               </ScatterChart>
             </ResponsiveContainer>
           </div>

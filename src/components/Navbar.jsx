@@ -47,15 +47,6 @@ function Navbar() {
           </li>
           <li>
             <Link 
-              to="/matches" 
-              className={`nav-link ${isActive('/matches') ? 'active' : ''}`}
-            >
-              <Trophy size={18} />
-              <span className="nav-text">Partidas</span>
-            </Link>
-          </li>
-          <li>
-            <Link 
               to="/rankings" 
               className={`nav-link ${isActive('/rankings') ? 'active' : ''}`}
             >

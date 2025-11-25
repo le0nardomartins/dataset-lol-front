@@ -71,22 +71,34 @@ function ChampionsTable() {
           championMap[champ.champion] = { ...champ }
         })
 
-        // Buscar dados de todas as roles da API
-        const roles = ['top', 'jungle', 'mid', 'adc', 'support']
+        // Buscar dados de pick-rate por role usando a API específica
+        // GET /champions/roles/pick-rate - Percentual de aparição (pick rate) dos campeões em cada role
         try {
-          const allStats = await Promise.all(
-            roles.map(role => api.getChampionStats({ role }))
-          )
+          const pickRateData = await api.getPickRateByRole({ minGames: 0 })
+          console.log('Pick Rate Data:', pickRateData)
 
-          // Preencher dados da API quando disponíveis
-          allStats.forEach((roleStats, roleIndex) => {
-            roleStats.forEach(stat => {
-              const champName = stat.champion
-              // Se o campeão não existe no mapa, adiciona (caso tenha dados na API mas não no mapeamento)
+          // Mapear roles da API para as chaves do objeto
+          const roleMapping = {
+            'TOP': 'top',
+            'JUNGLE': 'jungle',
+            'JG': 'jungle',
+            'MID': 'mid',
+            'ADC': 'adc',
+            'SUPPORT': 'support',
+            'SUP': 'support'
+          }
+
+          // Preencher dados de pick-rate quando disponíveis
+          if (Array.isArray(pickRateData)) {
+            pickRateData.forEach(item => {
+              const champName = item.champion
+              const roleKey = roleMapping[item.role?.toUpperCase()] || item.role?.toLowerCase()
+
+              // Se o campeão não existe no mapa, adiciona
               if (!championMap[champName]) {
                 championMap[champName] = {
                   champion: champName,
-              classes: normalizeClasses(championClasses[champName]),
+                  classes: normalizeClasses(championClasses[champName] || []),
                   top: null,
                   jungle: null,
                   mid: null,
@@ -94,16 +106,20 @@ function ChampionsTable() {
                   support: null
                 }
               }
-              // Preenche os dados da role
-              championMap[champName][roles[roleIndex]] = {
-                winRate: stat.win_rate,
-                games: stat.games,
-                wins: stat.wins
+
+              // Preenche os dados de pick-rate da role
+              if (roleKey && (roleKey === 'top' || roleKey === 'jungle' || roleKey === 'mid' || roleKey === 'adc' || roleKey === 'support')) {
+                championMap[champName][roleKey] = {
+                  pickRate: item.pick_rate != null ? Number(item.pick_rate) : null,
+                  games: item.games != null ? Number(item.games) : null,
+                  totalGames: item.total_games != null ? Number(item.total_games) : null,
+                  pickRank: item.pick_rank != null ? Number(item.pick_rank) : null
+                }
               }
             })
-          })
+          }
         } catch (apiError) {
-          console.warn('Erro ao buscar dados da API, mostrando campeões sem dados:', apiError)
+          console.warn('Erro ao buscar dados de pick-rate da API, mostrando campeões sem dados:', apiError)
           // Continua mesmo se a API falhar
         }
 
@@ -144,6 +160,35 @@ function ChampionsTable() {
     window.open(url, '_blank')
   }
 
+  // Função auxiliar para formatar pick rate
+  // Se houver pelo menos 1 jogo, mostra o pick rate (ou ">0.0%" se for muito pequeno)
+  // Se não houver jogos, mostra "-"
+  const formatPickRate = (roleData) => {
+    if (!roleData) return null
+    
+    const games = roleData.games || 0
+    const pickRate = roleData.pickRate
+    
+    // Se não houver jogos, não há aparição
+    if (games === 0 || games == null) {
+      return null
+    }
+    
+    // Se houver pelo menos 1 jogo, deve mostrar algo
+    if (pickRate != null) {
+      const ratePercent = pickRate * 100
+      // Se o pick rate for 0 mas houver games, mostra ">0.0%"
+      if (ratePercent === 0 || ratePercent < 0.1) {
+        return { display: '>0.0%', games }
+      }
+      // Caso contrário, mostra o valor real
+      return { display: `${ratePercent.toFixed(1)}%`, games }
+    }
+    
+    // Se houver games mas não houver pickRate, mostra ">0.0%"
+    return { display: '>0.0%', games }
+  }
+
 
   if (loading) {
     return <LoadingScreen message="Carregando dados dos campeões..." />
@@ -154,7 +199,7 @@ function ChampionsTable() {
       <div className="champions-table-content">
         <div className="page-header">
           <h1 className="page-title">Tabela Completa de Campeões</h1>
-          <p className="page-subtitle">Taxa de vitória por posição e classe de cada campeão</p>
+          <p className="page-subtitle">Taxa de aparição (pick rate) por posição e classe de cada campeão</p>
         </div>
 
         <div className="table-filters">
@@ -235,54 +280,69 @@ function ChampionsTable() {
                 )}
               </td>
                   <td className="win-rate-cell">
-                    {champ.top ? (
-                      <span className="win-rate">
-                        {(champ.top.winRate * 100).toFixed(1)}%
-                        <span className="games-count"> ({champ.top.games})</span>
-                      </span>
-                    ) : (
-                      <span className="no-data">-</span>
-                    )}
+                    {(() => {
+                      const formatted = formatPickRate(champ.top)
+                      return formatted ? (
+                        <span className="win-rate">
+                          {formatted.display}
+                          <span className="games-count"> ({formatted.games})</span>
+                        </span>
+                      ) : (
+                        <span className="no-data">-</span>
+                      )
+                    })()}
                   </td>
                   <td className="win-rate-cell">
-                    {champ.jungle ? (
-                      <span className="win-rate">
-                        {(champ.jungle.winRate * 100).toFixed(1)}%
-                        <span className="games-count"> ({champ.jungle.games})</span>
-                      </span>
-                    ) : (
-                      <span className="no-data">-</span>
-                    )}
+                    {(() => {
+                      const formatted = formatPickRate(champ.jungle)
+                      return formatted ? (
+                        <span className="win-rate">
+                          {formatted.display}
+                          <span className="games-count"> ({formatted.games})</span>
+                        </span>
+                      ) : (
+                        <span className="no-data">-</span>
+                      )
+                    })()}
                   </td>
                   <td className="win-rate-cell">
-                    {champ.mid ? (
-                      <span className="win-rate">
-                        {(champ.mid.winRate * 100).toFixed(1)}%
-                        <span className="games-count"> ({champ.mid.games})</span>
-                      </span>
-                    ) : (
-                      <span className="no-data">-</span>
-                    )}
+                    {(() => {
+                      const formatted = formatPickRate(champ.mid)
+                      return formatted ? (
+                        <span className="win-rate">
+                          {formatted.display}
+                          <span className="games-count"> ({formatted.games})</span>
+                        </span>
+                      ) : (
+                        <span className="no-data">-</span>
+                      )
+                    })()}
                   </td>
                   <td className="win-rate-cell">
-                    {champ.adc ? (
-                      <span className="win-rate">
-                        {(champ.adc.winRate * 100).toFixed(1)}%
-                        <span className="games-count"> ({champ.adc.games})</span>
-                      </span>
-                    ) : (
-                      <span className="no-data">-</span>
-                    )}
+                    {(() => {
+                      const formatted = formatPickRate(champ.adc)
+                      return formatted ? (
+                        <span className="win-rate">
+                          {formatted.display}
+                          <span className="games-count"> ({formatted.games})</span>
+                        </span>
+                      ) : (
+                        <span className="no-data">-</span>
+                      )
+                    })()}
                   </td>
                   <td className="win-rate-cell">
-                    {champ.support ? (
-                      <span className="win-rate">
-                        {(champ.support.winRate * 100).toFixed(1)}%
-                        <span className="games-count"> ({champ.support.games})</span>
-                      </span>
-                    ) : (
-                      <span className="no-data">-</span>
-                    )}
+                    {(() => {
+                      const formatted = formatPickRate(champ.support)
+                      return formatted ? (
+                        <span className="win-rate">
+                          {formatted.display}
+                          <span className="games-count"> ({formatted.games})</span>
+                        </span>
+                      ) : (
+                        <span className="no-data">-</span>
+                      )
+                    })()}
                   </td>
                 </tr>
               ))}
